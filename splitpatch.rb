@@ -48,12 +48,12 @@ class Splitter
     end
 
     def createFile(filename)
-        if File.exists?(filename)
+        if File.exist?(filename)
             puts "File #{filename} already exists. Renaming patch."
             appendix = 0
             zero = appendix.to_s.rjust(3, '0')
 
-            while File.exists?("#{filename}.#{zero}")
+            while File.exist?("#{filename}.#{zero}")
                 appendix += 1
                 zero = appendix.to_s.rjust(3, '0')
             end
