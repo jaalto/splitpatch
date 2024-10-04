@@ -28,7 +28,7 @@
 #       command line, each hunk is saved on its own patch file.
 
 PROGRAM = "splitpatch"
-MYVERSION = 1.1
+VERSION = 1.2
 LICENSE = "GPL-2+"  # See official acronyms: https://spdx.org/licenses/
 HOMEPAGE = "https://github.com/jaalto/splitpatch"
 
@@ -228,7 +228,7 @@ EOF
 end
 
 def version
-  puts "#{MYVERSION} #{LICENSE} #{HOMEPAGE}"
+  puts "#{VERSION} #{LICENSE} #{HOMEPAGE}"
 end
 
 def parsedOptions
