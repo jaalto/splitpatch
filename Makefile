@@ -50,6 +50,8 @@ INSTALL_BIN	= $(INSTALL) -m 755
 INSTALL_DATA	= $(INSTALL) -m 644
 INSTALL_SUID	= $(INSTALL) -m 4755
 
+RM			= rm -f
+
 SRCS		= $(PACKAGE).rb
 
 all: doc
@@ -78,7 +80,11 @@ install-bin:
 
 install: install-bin install-man
 
+uninstall:
+	$(RM) $(BINDIR)/$(PACKAGE)
+	$(RM) $(MANDIR1)/$(PACKAGE).1
+
 .PHONY: all doc
-.PHONY: clean distclean realclean install install-bin install-man
+.PHONY: clean distclean realclean install install-bin install-man uninstall
 
 # End of file
