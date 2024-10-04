@@ -29,7 +29,7 @@
 
 PROGRAM = "splitpatch"
 VERSION = 1.2
-LICENSE = "GPL-2+"  # See official acronyms: https://spdx.org/licenses/
+LICENSE = "GPL-2.0-or-later"  # See official acronyms: https://spdx.org/licenses/
 HOMEPAGE = "https://github.com/jaalto/splitpatch"
 
 class Splitter
