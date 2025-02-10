@@ -87,9 +87,22 @@ class Splitter
         end
     end
 
+    # Specifically for git patches
+    def getGitFilename(line)
+        folder = line.split.last
+
+        if @fullname
+            filename = folder.split("/").drop(1).join("-")
+        else
+            filename = folder.split("/").last
+        end
+        return filename
+    end
+
     # Split the patchfile by files
     def splitByFile
         legacy = false
+        git = false
         outfile = nil
         stream = open(@filename, 'rb')
 
@@ -110,7 +123,21 @@ class Splitter
                 filename << ".patch"
                 outfile = createFile(filename)
                 outfile.write(line)
-            elsif (line =~ /--- .*/) == 0 and not legacy
+            elsif (line =~ /^diff --git .*/) == 0 and not legacy
+                git = true
+
+                if (outfile)
+                    outfile.close_write
+                end
+                outfile = nil
+
+                filename = getGitFilename(line)
+                filename << ".patch"
+
+                outfile = createFile(filename)
+                outfile.write(line)
+            # This line will show up in a git patch, but it shouldn't mark the start of the patch
+            elsif (line =~ /--- .*/) == 0 and not legacy and not git
                 if (outfile)
                     outfile.close_write
                 end
@@ -133,6 +160,8 @@ class Splitter
 
     def splitByHunk
         legacy = false
+        git = false
+        in_git_header = false
         outfile = nil
         stream = open(@filename, 'rb')
         filename = ""
@@ -155,15 +184,32 @@ class Splitter
                     line = stream.readline
                     header << line
                 end
-
                 counter = 0
-            elsif (line =~ /--- .*/) == 0 and not legacy
+            # Start of a new git patch
+            elsif (line =~ /^diff --git .*/) == 0
+                # If we hit this, the previous git patch had no hunk, so the file never started
+                if (in_git_header)
+                    hunklessfilename = "#{filename}.000.patch"
+                    outfile = createFile(hunklessfilename)
+                    outfile.write(header.join('')) # Header ended up storing the entire patch
+                end
+
+                git = true
+                header = [ line ]
+                filename = getGitFilename(line)
+                counter = 0
+
+                # Future lines will be within a header until we reach a hunk, new patch, or EOF
+                in_git_header = true
+            elsif (line =~ /--- .*/) == 0 and not legacy and not git
                 #find filename
                 # next line is header too
                 header = [ line, stream.readline ]
                 filename = getFilenameByHeader(header)
                 counter = 0
             elsif (line =~ /@@ .* @@/) == 0
+                in_git_header = false
+
                 if (outfile)
                     outfile.close_write
                 end
@@ -175,11 +221,21 @@ class Splitter
 
                 outfile.write(header.join(''))
                 outfile.write(line)
+            # We haven't found a hunk, new patch, or EOF yet
+            elsif (in_git_header)
+                header << line
             else
                 if outfile
                     outfile.write(line)
                 end
             end
+        end
+
+        # Last patch in file had no hunk, hit EOF before we could write everything in header
+        if (in_git_header)
+            hunklessfilename = "#{filename}.000.patch"
+            outfile = createFile(hunklessfilename)
+            outfile.write(header.join(''))
         end
     end
 
