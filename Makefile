@@ -3,7 +3,6 @@
 #   Copyright
 #
 #	Copyright (C) 2014-2025 Jari Aalto <jari.aalto@cante.net>
-#       Copyright (C) 2025 Eman Resu <elevenaka11@gmail.com>
 #
 #   License
 #
