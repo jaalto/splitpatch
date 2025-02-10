@@ -29,7 +29,7 @@
 #       command line, each hunk is saved on its own patch file.
 
 PROGRAM = "splitpatch"
-VERSION = 1.2
+VERSION = 2025.0210
 LICENSE = "GPL-2.0-or-later"  # See official acronyms: https://spdx.org/licenses/
 HOMEPAGE = "https://github.com/jaalto/splitpatch"
 
