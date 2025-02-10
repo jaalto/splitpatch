@@ -1,4 +1,4 @@
-#!/usr/bin/make -f
+# -*- mode: makefile; -*-
 #
 #   Copyright
 #
