@@ -2,7 +2,8 @@
 #
 #   Copyright
 #
-#	Copyright (C) 2014 Jari Aalto <jari.aalto@cante.net>
+#	Copyright (C) 2014-2025 Jari Aalto <jari.aalto@cante.net>
+#       Copyright (C) 2025 Eman Resu <elevenaka11@gmail.com>
 #
 #   License
 #
@@ -21,14 +22,18 @@
 #
 #   Description
 #
-#       A Ruby program. Nothing to compile
+#       Makefile to package, install and generate documentation.
+#	See "make help".
 
 ifneq (,)
 This makefile requires GNU Make.
 endif
 
 PACKAGE		= splitpatch
+BIN		= bin/$(PACKAGE).rb
+
 VERSION		=
+MAKEFILE	= Makefile
 
 DESTDIR		=
 PREFIX		?= /usr
@@ -47,45 +52,70 @@ MANDIR		= $(DESTDIR)$(mandir)
 MANDIR1		= $(MANDIR)/man1
 
 INSTALL		= /usr/bin/install
-INSTALL_BIN	= $(INSTALL) -m 755
-INSTALL_DATA	= $(INSTALL) -m 644
-INSTALL_SUID	= $(INSTALL) -m 4755
+INSTALL_BIN	= $(INSTALL) --mode=755
+INSTALL_DATA	= $(INSTALL) --mode=644
+INSTALL_SUID	= $(INSTALL) --mode=4755
 
-RM			= rm -f
+RM		= rm --force
+LN		= ln --symbolic --relative
 
-SRCS		= $(PACKAGE).rb
-
+# all - Call target 'doc'
+.PHONY: all
 all: doc
 
+.PHONY: help
+help:
+	awk '/^# [^ -]+ - / {sub("^# [^ -]+ - ", ""); print}' $(MAKEFILE) | sort
+
+# clean - Clean generated files
+.PHONY: clean
 clean:
 	# clean
 	-rm -f *[#~] *.\#*
 	$(MAKE) -C man $@
 
+# distclean - Clean all generated files
+.PHONY: distclean
 distclean: clean
 
+# realclean - Clean totally all generated files
+.PHONY: realclean
 realclean: clean
 
+# doc - Generate documentation
+.PHONY: doc
 doc:
 	$(MAKE) -C man all
 
+# install-man - Install manual pages to MANDIR1
+.PHONY: install-man
 install-man: doc
 	# install-man
 	$(INSTALL_BIN) -d $(MANDIR1)
 	$(INSTALL_DATA) man/*.1 $(MANDIR1)
 
+# install-bin - Install program to BINDIR
+.PHONY: install-bin
 install-bin:
 	# install-bin
 	$(INSTALL_BIN) -d $(BINDIR)
-	$(INSTALL_BIN) $(PACKAGE).rb $(BINDIR)/$(PACKAGE)
+	$(INSTALL_BIN) $(BIN) $(BINDIR)/$(PACKAGE)
 
+# install-bin - symlink program to BINDIR
+.PHONY: install-bin-symlink
+install-bin-symlink:
+	# install-bin
+	$(INSTALL_BIN) -d $(BINDIR)
+	$(LN) $(BIN) $(BINDIR)/$(PACKAGE)/
+
+# install - install program and manual pages
+.PHONY: install
 install: install-bin install-man
 
+# uninstall - uninstall program and manual pages
+.PHONY: uninstall
 uninstall:
 	$(RM) $(BINDIR)/$(PACKAGE)
 	$(RM) $(MANDIR1)/$(PACKAGE).1
-
-.PHONY: all doc
-.PHONY: clean distclean realclean install install-bin install-man uninstall
 
 # End of file
