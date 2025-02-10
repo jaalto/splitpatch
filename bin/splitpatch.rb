@@ -2,7 +2,8 @@
 #
 #   Copyright
 #
-#       Copyright (C) 2014-2024 Jari Aalto <jari.aalto@cante.net>
+#       Copyright (C) 2014-2025 Jari Aalto <jari.aalto@cante.net>
+#       Copyright (C) 2025 Eman Resu <elevenaka11@gmail.com>
 #       Copyright (C) 2007-2014 Peter Hutterer <peter.hutterer@who-t.net>
 #       Copyright (C) 2007-2014 Benjamin Close <Benjamin.Close@clearchain.com>
 #
