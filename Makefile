@@ -51,9 +51,9 @@ MANDIR		= $(DESTDIR)$(mandir)
 MANDIR1		= $(MANDIR)/man1
 
 INSTALL		= /usr/bin/install
-INSTALL_BIN	= $(INSTALL) --mode=755
-INSTALL_DATA	= $(INSTALL) --mode=644
-INSTALL_SUID	= $(INSTALL) --mode=4755
+INSTALL_BIN	= $(INSTALL) -m 755
+INSTALL_DATA	= $(INSTALL) -m 644
+INSTALL_SUID	= $(INSTALL) -m 4755
 
 RM		= rm --force
 LN		= ln --symbolic --relative
