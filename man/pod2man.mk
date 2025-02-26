@@ -65,7 +65,7 @@ $(MANPAGE): $(MANPOD)
 		--section="$(MANSECT)" \
                 --release="$(RELEASE)" \
 		$(MANPOD) \
-	        > $(MANPAGE) && \
-	rm -f pod*.tmp
+	        > $(MANPAGE)
+	rm --force pod*.tmp
 
 # End of of Makefile part
