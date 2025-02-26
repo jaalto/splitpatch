@@ -264,7 +264,6 @@ OPTIONS
         Display version, licence and homepage.
 
 DESCRIPTION
-
     Split the patch up into files or hunks
 
     Divide a patch or diff file into pieces. The split can made by file
@@ -275,7 +274,6 @@ DESCRIPTION
     Note: only patches in unified format are recognized.
 
 AUTHORS
-
     Peter Hutterer (orig. Author) <peter.hutterer@who-t.net>
     Benjamin Close (orig. Author) <Benjamin.Close@clearchain.com>
     Jari Aalto (Maintainer) <jari.aalto@cante.net>"
