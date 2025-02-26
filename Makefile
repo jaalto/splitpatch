@@ -1,4 +1,4 @@
-# -*- mode: makefile; -*-
+# -*- mode: makefile-gmake; -*-
 #
 #   Copyright
 #
@@ -28,6 +28,11 @@ ifneq (,)
 This makefile requires GNU Make.
 endif
 
+ifneq (,$(wildcard /etc/rc.conf))
+    OS_BSD = bsd
+    INSTALL_OPT_USE_SHORT = short
+endif
+
 PACKAGE		= splitpatch
 BIN		= bin/$(PACKAGE).rb
 
@@ -50,10 +55,20 @@ DOCDIR		= $(DESTDIR)$(sharedir)/doc
 MANDIR		= $(DESTDIR)$(mandir)
 MANDIR1		= $(MANDIR)/man1
 
+MAKE_OPT_CHDIR    = --directory
+INSTALL_OPT_MODE  = --mode
+INSTALL_OPT_MKDIR = --directory
+
+ifneq (,$(INSTALL_OPT_USE_SHORT))
+    INSTALL_OPT_MODE  = -m
+    INSTALL_OPT_MKDIR = -d
+endif
+
 INSTALL		= /usr/bin/install
-INSTALL_BIN	= $(INSTALL) --mode=755
-INSTALL_DATA	= $(INSTALL) --mode=644
-INSTALL_SUID	= $(INSTALL) --mode=4755
+INSTALL_BIN	= $(INSTALL) $(INSTALL_OPT_MODE) 755
+INSTALL_MMKDIR	= $(INSTALL) $(INSTALL_OPT_MODE) 755 $(INSTALL_OPT_MKDIR)
+INSTALL_DATA	= $(INSTALL) $(INSTALL_OPT_MODE) 644
+INSTALL_SUID	= $(INSTALL) $(INSTALL_OPT_MODE) 4755
 
 RM		= rm --force
 LN		= ln --symbolic --relative
@@ -70,8 +85,8 @@ help:
 .PHONY: clean
 clean:
 	# clean
-	-rm -f *[#~] *.\#*
-	$(MAKE) -C man $@
+	-rm --force *[#~] *.\#*
+	$(MAKE) $(MAKE_OPT_CHDIR) man $@
 
 # distclean - Clean all generated files
 .PHONY: distclean
@@ -84,27 +99,27 @@ realclean: clean
 # doc - Generate documentation
 .PHONY: doc
 doc:
-	$(MAKE) -C man all
+	$(MAKE) $(MAKE_OPT_CHDIR) man all
 
 # install-man - Install manual pages to MANDIR1
 .PHONY: install-man
 install-man: doc
 	# install-man
-	$(INSTALL_BIN) -d $(MANDIR1)
+	$(INSTALL_MKDIR) $(MANDIR1)
 	$(INSTALL_DATA) man/*.1 $(MANDIR1)
 
 # install-bin - Install program to BINDIR
 .PHONY: install-bin
 install-bin:
 	# install-bin
-	$(INSTALL_BIN) -d $(BINDIR)
+	$(INSTALL_MKDIR) $(BINDIR)
 	$(INSTALL_BIN) $(BIN) $(BINDIR)/$(PACKAGE)
 
 # install-bin - symlink program to BINDIR
 .PHONY: install-bin-symlink
 install-bin-symlink:
 	# install-bin
-	$(INSTALL_BIN) -d $(BINDIR)
+	$(INSTALL_MKDIR) $(BINDIR)
 	$(LN) $(BIN) $(BINDIR)/$(PACKAGE)/
 
 # install - install program and manual pages
