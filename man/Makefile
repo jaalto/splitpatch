@@ -2,7 +2,7 @@
 #
 #   Copyright
 #
-#	Copyright (C) 2014 Jari Aalto <jari.aalto@cante.net>
+#	Copyright (C) 2014-2025 Jari Aalto <jari.aalto@cante.net>
 #
 #   License
 #
@@ -26,10 +26,10 @@
 PACKAGE = splitpatch
 
 all:
-	$(MAKE) -f pod2man.mk PACKAGE=$(PACKAGE) makeman
+	$(MAKE) --file pod2man.mk PACKAGE=$(PACKAGE) makeman
 
 clean:
-	rm -f *.1
+	rm --force *.1
 
 .PHONY: all
 
