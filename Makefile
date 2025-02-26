@@ -29,7 +29,7 @@ This makefile requires GNU Make.
 endif
 
 ifneq (,$(wildcard /etc/rc.conf))
-    OS_BSD = bsd
+    OS = bsd
     INSTALL_OPT_USE_SHORT = short
 endif
 
