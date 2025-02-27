@@ -24,13 +24,27 @@
 #       Makefile to package, install and generate documentation.
 #	See "make help".
 
+SHELL           = /bin/sh
+INSTALL		= install
+# Use --long install(1) options by default
+OPT_SORT	=
+
 ifneq (,)
-This makefile requires GNU Make.
+    This makefile requires GNU Make.
 endif
 
-ifneq (,$(wildcard /etc/rc.conf))
-    OS = bsd
-    INSTALL_OPT_USE_SHORT = short
+ifeq ($(findstring install,$(INSTALL)),install)
+    # "command" is in POSIX, more portable than which(1)
+    ifeq (,$(shell command -v install))
+        $(error FATAL: program install(1) not found in PATH)
+    endif
+
+    GNU := $(findstring GNU,$(shell install --version))
+endif
+
+ifeq (,$(GNU))
+    $(info INFO: non GNU install(1) detected, switch to short options...)
+    OPT_SHORT = short
 endif
 
 PACKAGE		= splitpatch
@@ -55,23 +69,24 @@ DOCDIR		= $(DESTDIR)$(sharedir)/doc
 MANDIR		= $(DESTDIR)$(mandir)
 MANDIR1		= $(MANDIR)/man1
 
+RM		= rm --force
+LN		= ln --symbolic
+
 MAKE_OPT_CHDIR    = --directory
 INSTALL_OPT_MODE  = --mode
 INSTALL_OPT_MKDIR = --directory
 
-ifneq (,$(INSTALL_OPT_USE_SHORT))
+ifneq (,$(OPT_SHORT))
+    RM = rm -f
+    LN = ln -s
     INSTALL_OPT_MODE  = -m
     INSTALL_OPT_MKDIR = -d
 endif
 
-INSTALL		= /usr/bin/install
 INSTALL_BIN	= $(INSTALL) $(INSTALL_OPT_MODE) 755
 INSTALL_MMKDIR	= $(INSTALL) $(INSTALL_OPT_MODE) 755 $(INSTALL_OPT_MKDIR)
 INSTALL_DATA	= $(INSTALL) $(INSTALL_OPT_MODE) 644
 INSTALL_SUID	= $(INSTALL) $(INSTALL_OPT_MODE) 4755
-
-RM		= rm --force
-LN		= ln --symbolic --relative
 
 # all - Call target 'doc'
 .PHONY: all
@@ -79,7 +94,7 @@ all: doc
 
 .PHONY: help
 help:
-	awk '/^# [^ -]+ - / {sub("^# [^ -]+ - ", ""); print}' $(MAKEFILE) | sort
+	@awk '/^# [^ -]+ - / {sub("^# ", ""); print}' $(MAKEFILE) | sort
 
 # clean - Clean generated files
 .PHONY: clean
