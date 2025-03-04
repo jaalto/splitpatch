@@ -24,14 +24,14 @@
 #       Makefile to package, install and generate documentation.
 #	See "make help".
 
+ifneq (,)
+    This makefile requires GNU Make.
+endif
+
 SHELL    = /bin/sh
 INSTALL  = install
 # Use --long install(1) options by default
 OPT_SORT =
-
-ifneq (,)
-    This makefile requires GNU Make.
-endif
 
 ifeq ($(findstring install,$(INSTALL)),install)
     # "command" is in POSIX. More portable than which(1)
@@ -137,7 +137,7 @@ clean:
 # distclean - Clean all generated files
 .PHONY: distclean
 distclean: clean
-	$(MAKE) OPT_SHORT=$(OPT_SHORT) $(MAKE_OPT_CHDIR) clean
+	$(MAKE) OPT_SHORT=$(OPT_SHORT) $(MAKE_OPT_CHDIR) man clean
 
 # realclean - Clean totally all generated files
 .PHONY: realclean
