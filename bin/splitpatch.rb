@@ -276,6 +276,7 @@ DESCRIPTION
 AUTHORS
     Peter Hutterer (orig. Author) <peter.hutterer@who-t.net>
     Benjamin Close (orig. Author) <Benjamin.Close@clearchain.com>
+    Eman Resu (Contributor) <elevenaka11@gmail.com>
     Jari Aalto (Maintainer) <jari.aalto@cante.net>"
 
     Homepage: #{HOMEPAGE}
