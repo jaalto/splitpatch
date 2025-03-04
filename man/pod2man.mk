@@ -31,7 +31,7 @@ ifneq (,)
 endif
 
 # This variable *must* be set when calling
-PACKAGE		?= package
+PACKAGE		?= splitpatch
 RELEASE         ?= $(PACKAGE)
 
 # Optional variables to set
@@ -53,6 +53,11 @@ MANPAGE		= $(MANDEST)$(PACKAGE).$(MANSECT)
 
 POD2MAN		= pod2man
 POD2MAN_FLAGS	= --utf8
+RM              = rm --force
+
+ifdef OPT_SHORT
+    RM = rm -f
+endif
 
 makeman: $(MANPAGE)
 
@@ -66,6 +71,6 @@ $(MANPAGE): $(MANPOD)
                 --release="$(RELEASE)" \
 		$(MANPOD) \
 	        > $(MANPAGE)
-	rm --force pod*.tmp
+	$(RM) pod*.tmp
 
 # End of of Makefile part
