@@ -34,7 +34,7 @@ ifneq (,)
 endif
 
 ifeq ($(findstring install,$(INSTALL)),install)
-    # "command" is in POSIX, more portable than which(1)
+    # "command" is in POSIX. More portable than which(1)
     ifeq (,$(shell command -v install))
         $(error FATAL: program install(1) not found in PATH)
     endif
@@ -42,8 +42,8 @@ ifeq ($(findstring install,$(INSTALL)),install)
     GNU := $(findstring GNU,$(shell install --version))
 endif
 
-ifeq (,$(GNU))
-    $(info INFO: non GNU install(1) detected, switch to short options...)
+ifndef GNU
+    $(info INFO: non GNU, switching to OPT_SHORT)
     OPT_SHORT = short
 endif
 
@@ -76,7 +76,9 @@ MAKE_OPT_CHDIR    = --directory
 INSTALL_OPT_MODE  = --mode
 INSTALL_OPT_MKDIR = --directory
 
-ifneq (,$(OPT_SHORT))
+OPT_SHORT = 1
+
+ifdef OPT_SHORT
     RM = rm -f
     LN = ln -s
     INSTALL_OPT_MODE  = -m
@@ -119,7 +121,7 @@ install-bin:
 # install-bin - symlink program to BINDIR
 .PHONY: install-bin-symlink
 install-bin-symlink:
-	# install-bin
+	# install-bin-symlink
 	$(INSTALL_MKDIR) $(BINDIR)
 	$(LN) $(BIN) $(BINDIR)/$(PACKAGE)/
 
@@ -130,6 +132,7 @@ install: install-bin install-man
 # uninstall - uninstall program and manual pages
 .PHONY: uninstall
 uninstall:
+	# uninstall
 	$(RM) $(BINDIR)/$(PACKAGE)
 	$(RM) $(MANDIR1)/$(PACKAGE).1
 
