@@ -93,7 +93,7 @@ help:
 # doc - Generate documentation
 .PHONY: doc
 doc:
-	$(MAKE) $(MAKE_OPT_CHDIR) man all
+	$(MAKE) OPT_SHORT=$(OPT_SHORT) $(MAKE_OPT_CHDIR) man all
 
 # install-man - Install manual pages to MANDIR1
 .PHONY: install-man
