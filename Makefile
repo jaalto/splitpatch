@@ -88,28 +88,13 @@ INSTALL_MMKDIR	= $(INSTALL) $(INSTALL_OPT_MODE) 755 $(INSTALL_OPT_MKDIR)
 INSTALL_DATA	= $(INSTALL) $(INSTALL_OPT_MODE) 644
 INSTALL_SUID	= $(INSTALL) $(INSTALL_OPT_MODE) 4755
 
-# all - Call target 'doc'
+# all - Call target 'help'
 .PHONY: all
-all: doc
+all: help
 
 .PHONY: help
 help:
-	@awk '/^# [^ -]+ - / {sub("^# ", ""); print}' $(MAKEFILE) | sort
-
-# clean - Clean generated files
-.PHONY: clean
-clean:
-	# clean
-	-rm --force *[#~] *.\#*
-	$(MAKE) $(MAKE_OPT_CHDIR) man $@
-
-# distclean - Clean all generated files
-.PHONY: distclean
-distclean: clean
-
-# realclean - Clean totally all generated files
-.PHONY: realclean
-realclean: clean
+	@awk '/^# [^ -]+ - / {sub("^# ", ""); print}' $(MAKEFILE)
 
 # doc - Generate documentation
 .PHONY: doc
@@ -146,5 +131,20 @@ install: install-bin install-man
 uninstall:
 	$(RM) $(BINDIR)/$(PACKAGE)
 	$(RM) $(MANDIR1)/$(PACKAGE).1
+
+# clean - Clean generated files
+.PHONY: clean
+clean:
+	# clean
+	-rm --force *[#~] *.\#*
+	$(MAKE) $(MAKE_OPT_CHDIR) man $@
+
+# distclean - Clean all generated files
+.PHONY: distclean
+distclean: clean
+
+# realclean - Clean totally all generated files
+.PHONY: realclean
+realclean: clean
 
 # End of file
