@@ -120,7 +120,7 @@ install-bin-symlink:
 .PHONY: install
 install: install-bin install-man
 
-# uninstall - uninstall program and manual pages
+# uninstall - uninstall program and manual page
 .PHONY: uninstall
 uninstall:
 	# uninstall
