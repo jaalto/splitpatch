@@ -40,6 +40,6 @@ all:
 clean:
 	$(RM) *.1
 
-.PHONY: all
+.PHONY: all clean
 
 # End of file
