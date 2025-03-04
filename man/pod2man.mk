@@ -59,6 +59,7 @@ ifdef OPT_SHORT
     RM = rm -f
 endif
 
+.PHONY: makeman
 makeman: $(MANPAGE)
 
 $(MANPAGE): $(MANPOD)
