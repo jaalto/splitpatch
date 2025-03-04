@@ -92,6 +92,7 @@ INSTALL_SUID	= $(INSTALL) $(INSTALL_OPT_MODE) 4755
 .PHONY: all
 all: help
 
+# help - Display targets to call
 .PHONY: help
 help:
 	@awk '/^# [^ -]+ - / {sub("^# ", ""); print}' $(MAKEFILE)
