@@ -24,10 +24,10 @@
 #       Makefile to package, install and generate documentation.
 #	See "make help".
 
-SHELL           = /bin/sh
-INSTALL		= install
+SHELL    = /bin/sh
+INSTALL  = install
 # Use --long install(1) options by default
-OPT_SORT	=
+OPT_SORT =
 
 ifneq (,)
     This makefile requires GNU Make.
@@ -47,36 +47,27 @@ ifndef GNU
     OPT_SHORT = short
 endif
 
-PACKAGE		= splitpatch
-BIN		= bin/$(PACKAGE).rb
-
-VERSION		=
-MAKEFILE	= Makefile
-
-DESTDIR		=
-PREFIX		?= /usr
-prefix          = $(PREFIX)
-exec_prefix	= $(prefix)
-man_prefix	= $(prefix)/share
-mandir		= $(man_prefix)/man
-bindir		= $(exec_prefix)/bin
-sharedir	= $(prefix)/share
-
-BINDIR		= $(DESTDIR)$(bindir)
-DOCDIR		= $(DESTDIR)$(sharedir)/doc
-
-# 1 = regular, 5 = conf, 6 = games, 8 = daemons
-MANDIR		= $(DESTDIR)$(mandir)
-MANDIR1		= $(MANDIR)/man1
-
-RM		= rm --force
-LN		= ln --symbolic
-
+PACKAGE		  = splitpatch
+BIN		  = bin/$(PACKAGE).rb
+VERSION		  =
+MAKEFILE	  = Makefile
+DESTDIR		  =
+PREFIX		  ?= /usr
+prefix            = $(PREFIX)
+exec_prefix	  = $(prefix)
+man_prefix	  = $(prefix)/share
+mandir		  = $(man_prefix)/man
+bindir		  = $(exec_prefix)/bin
+sharedir	  = $(prefix)/share
+BINDIR		  = $(DESTDIR)$(bindir)
+DOCDIR		  = $(DESTDIR)$(sharedir)/doc
+MANDIR		  = $(DESTDIR)$(mandir)
+MANDIR1		  = $(MANDIR)/man1
+RM		  = rm --force
+LN		  = ln --symbolic
 MAKE_OPT_CHDIR    = --directory
 INSTALL_OPT_MODE  = --mode
 INSTALL_OPT_MKDIR = --directory
-
-OPT_SHORT = 1
 
 ifdef OPT_SHORT
     RM = rm -f
