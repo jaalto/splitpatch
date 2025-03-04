@@ -23,6 +23,10 @@
 #
 #       Generate manual page form Perl POD file.
 
+ifneq (,)
+    This makefile requires GNU Make.
+endif
+
 PACKAGE = splitpatch
 RM      = rm --force
 
@@ -31,7 +35,7 @@ ifdef OPT_SHORT
 endif
 
 all:
-	$(MAKE) --file pod2man.mk PACKAGE=$(PACKAGE) makeman
+	$(MAKE) OPT_SHORT=$(OPT_SHORT) --file pod2man.mk PACKAGE=$(PACKAGE) makeman
 
 clean:
 	$(RM) *.1
