@@ -137,6 +137,7 @@ clean:
 # distclean - Clean all generated files
 .PHONY: distclean
 distclean: clean
+	$(MAKE) OPT_SHORT=$(OPT_SHORT) $(MAKE_OPT_CHDIR) clean
 
 # realclean - Clean totally all generated files
 .PHONY: realclean
