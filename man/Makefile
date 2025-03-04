@@ -24,12 +24,17 @@
 #       Generate manual page form Perl POD file.
 
 PACKAGE = splitpatch
+RM      = rm --force
+
+ifdef OPT_SHORT
+    RM = rm -f
+endif
 
 all:
 	$(MAKE) --file pod2man.mk PACKAGE=$(PACKAGE) makeman
 
 clean:
-	rm --force *.1
+	$(RM) *.1
 
 .PHONY: all
 
